@@ -24,8 +24,8 @@ class BukutamuController extends Controller
         }
 
         return response()->json([
-            'message' => 'Data bukutamu ditemukan',
             'data' => $bukutamu,
+            'message' => 'Data bukutamu ditemukan',
             'status' => 200,
         ], 200);
     }
@@ -144,7 +144,7 @@ class BukutamuController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil menghapus data bukutamu',
-            ]);
+            ], 200);
         }
     }
 }
