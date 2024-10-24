@@ -6,6 +6,7 @@ use App\Http\Controllers\API\BukutamuController;
 use App\Http\Controllers\API\ArtikelController;
 use App\Http\Controllers\API\GaleriController;
 use App\Http\Controllers\API\GaleriKategoriController;
+use App\Http\Controllers\API\StatistikController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,11 @@ Route::post('/galerikategori', [GaleriKategoriController::class, 'create']);
 Route::get('/galerikategori', [GaleriKategoriController::class, 'index']);
 Route::put('/galerikategori/{id}', [GaleriKategoriController::class, 'update']);
 Route::delete('/galerikategori/{id}', [GaleriKategoriController::class, 'destroy']);
+
+Route::post('/statistik', [StatistikController::class, 'create']);
+Route::get('/statistik', [StatistikController::class, 'index']);
+Route::put('/statistik/{id}', [StatistikController::class, 'update']);
+Route::delete('/statistik/{id}', [StatistikController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

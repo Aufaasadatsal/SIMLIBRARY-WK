@@ -141,7 +141,7 @@ class ArtikelController extends Controller
         if (!$artikel) {
             return response()->json([
                 'message' => 'gagal menghapus data artikel',
-                'error'  => 400,
+                'status'  => 400,
             ], 400);
         }
 
