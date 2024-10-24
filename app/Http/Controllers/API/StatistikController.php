@@ -3,29 +3,28 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\GaleriKategori;
+use App\Models\Statistik;
 use Illuminate\Http\Request;
 use Validator;
 
-class GaleriKategoriController extends Controller
+class StatistikController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $galeriKategori = GaleriKategori::all();
-
-        if ($galeriKategori->isEmpty()) {
+        $statistik = Statistik::all();
+        if ($statistik->isEmpty())
+        {
             return response()->json([
-                'message' => 'Data galeri kategori kosong',
+                'message' => 'Data statistik kosong',
                 'error'  => true,
             ], 404);
         }
-
         return response()->json([
-            'data' => $galeriKategori,
-            'message' => 'Data galeri kategori ditemukan',
+            'data' => $statistik,
+            'message' => 'Data statistik ditemukan',
             'status' => 200,
         ], 200);
     }
@@ -36,25 +35,27 @@ class GaleriKategoriController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            "name" => 'required|string|max:255',
+            'ip' => 'required|ip',
+            'tanggal' => 'required|date',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Gagal menambahkan data galeri kategori',
+                'message' => 'Gagal menambahkan statistik',
                 'error' => $validator->errors(),
             ], 400);
         }
 
-        $galeriKategori = GaleriKategori::create([
-            'name' => $request->name,
+        $statistik = Statistik::create([
+            'ip' => $request->ip,
+            'tanggal' => $request->tanggal,
         ]);
 
         return response()->json([
-            'data' => $galeriKategori,
-            'message' => 'Berhasil menambahkan data galeri kategori',
+            'data' => $statistik,
+            'message' => 'Berhasil menambahkan data statistik',
             'status' => 200,
-        ], 200);
+        ], 201);    
     }
 
     /**
@@ -68,7 +69,7 @@ class GaleriKategoriController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(GaleriKategori $galeriKategori)
+    public function show(Statistik $statistik)
     {
         //
     }
@@ -76,7 +77,7 @@ class GaleriKategoriController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(GaleriKategori $galeriKategori)
+    public function edit(Statistik $statistik)
     {
         //
     }
@@ -84,34 +85,36 @@ class GaleriKategoriController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, GaleriKategori $galeriKategori, string $id)
+    public function update(Request $request, Statistik $statistik, string $id)
     {
-        $galeriKategori = GaleriKategori::find($id);
+        $statistik = Statistik::find($id);
 
-        if (!$galeriKategori) {
+        if (!$statistik) {
             return response()->json([
-                'message' => 'Data galeri kategori tidak ditemukan',
+                'message' => 'Data statistik tidak ditemukan',
                 'error' => true,
             ], 404);
         }
 
         $validator = Validator::make($request->all(), [
-            "name" => 'required|string|max:255',
+            'ip' => 'required|ip',
+            'tanggal' => 'required|date',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Gagal mengupdate data galeri kategori',
+                'message' => 'Gagal mengupdate data statistik',
                 'error' => $validator->errors(),
             ], 400);
         }
 
-        $galeriKategori->name = $request->input('name');
-        $galeriKategori->save();
+        $statistik->ip = $request->input('ip');
+        $statistik->tanggal = $request->input('tanggal');
+        $statistik->save();
 
         return response()->json([
-            'data' => $galeriKategori,
-            'message' => 'Berhasil mengupdate data galeri kategori',
+            'data' => $statistik,
+            'message' => 'Berhasil mengupdate data statistik',
             'status' => 200,
         ], 200);
     }
@@ -119,21 +122,21 @@ class GaleriKategoriController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(GaleriKategori $galeriKategori, string $id)
+    public function destroy(Statistik $statistik, string $id)
     {
-        $galeriKategori = GaleriKategori::find($id);
+        $statistik = Statistik::find($id);
 
-        if (!$galeriKategori) {
+        if (!$statistik) {
             return response()->json([
-                'message' => 'Gagal menghapus data galeri kategori',
+                'message' => 'Gagal menghapus data statistik',
                 'status' => 400,
-            ], 404);
+            ], 400);
         }
 
-        $galeriKategori->delete();
+        $statistik->delete();
 
         return response()->json([
-            'message' => 'Berhasil menghapus data galeri kategori',
+            'message' => 'Berhasil menghapus data statistik',
             'status' => 200,
         ], 200);
     }

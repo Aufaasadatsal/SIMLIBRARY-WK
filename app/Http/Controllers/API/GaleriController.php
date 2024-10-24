@@ -123,9 +123,9 @@ class GaleriController extends Controller
 
         if (!$galeri) {
             return response()->json([
-                'message' => 'Data galeri tidak ditemukan',
-                'error' => true,
-            ], 404);
+                'message' => 'Gagal menghapus data galeri',
+                'status' => 400,
+            ], 400);
         }
 
         $galeri->delete();
