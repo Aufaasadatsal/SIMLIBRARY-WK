@@ -7,6 +7,7 @@ use App\Http\Controllers\API\ArtikelController;
 use App\Http\Controllers\API\GaleriController;
 use App\Http\Controllers\API\GaleriKategoriController;
 use App\Http\Controllers\API\StatistikController;
+use App\Http\Controllers\API\VisimisController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,11 @@ Route::post('/statistik', [StatistikController::class, 'create']);
 Route::get('/statistik', [StatistikController::class, 'index']);
 Route::put('/statistik/{id}', [StatistikController::class, 'update']);
 Route::delete('/statistik/{id}', [StatistikController::class, 'destroy']);
+
+Route::post('/visimis', [VisimisController::class, 'create']);
+Route::get('/visimis', [VisimisController::class, 'index']);
+Route::put('/visimis/{id}', [VisimisController::class, 'update']);
+Route::delete('/visimis/{id}', [VisimisController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
