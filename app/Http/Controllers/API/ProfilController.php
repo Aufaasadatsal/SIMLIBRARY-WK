@@ -3,29 +3,27 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Artikel;
+use App\Models\Profil;
 use Illuminate\Http\Request;
 use Validator;
 
-class ArtikelController extends Controller
+class ProfilController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $artikel = Artikel::all();
-
-        if ($artikel->isEmpty()) {
+        $profil = Profil::all();
+        if ($profil->isEmpty()) {
             return response()->json([
-                'message' => 'Data artikel kosong',
+                'message' => 'Data profil kosong',
                 'error'  => true,
             ], 404);
         }
-
         return response()->json([
-            'data' => $artikel,
-            'message' => 'Data artikel ditemukan',
+            'data' => $profil,
+            'message' => 'Data profil ditemukan',
             'status' => 200,
         ], 200);
     }
@@ -36,15 +34,15 @@ class ArtikelController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'judul_artikel' => 'required|string|max: 255',
-            'isi_artikel' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'judul_profil' => 'required|string|max: 100',
+            'isi_profil' => 'required|string',
             'status' => 'required|string|max: 100',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'message' => 'Gagal menambahkan data Artikel',
+                'message' => 'Gagal menambahkan data profil',
                 'error'  => $validator->errors(),
             ], 400);
         }
@@ -55,18 +53,18 @@ class ArtikelController extends Controller
             $image->move(public_path('images'), $image_name);
         }
 
-        $artikel = Artikel::create([
-            'judul_artikel' => $request->judul_artikel,
-            'isi_artikel' => $request->isi_artikel,
+        $profil = Profil::create([
+            'judul_profil' => $request->judul_profil,
+            'isi_profil' => $request->isi_profil,
+            'status' => $request->status,
             'image' => $image_name,
-            'status' => $request->status
         ]);
 
         return response()->json([
-            'data' => $artikel,
-            'message' => 'Berhasil menambahkan data artikel',
-            'status' => 200
-        ], 200);
+            'data' => $profil,
+            'message' => 'Data profil ditambahkan',
+            'status' => 201,
+        ], 201);
     }
 
     /**
@@ -80,7 +78,7 @@ class ArtikelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Artikel $artikel)
+    public function show(Profil $profil)
     {
         //
     }
@@ -88,7 +86,7 @@ class ArtikelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Artikel $artikel)
+    public function edit(Profil $profil)
     {
         //
     }
@@ -96,60 +94,60 @@ class ArtikelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Artikel $artikel, string $id)
+    public function update(Request $request, Profil $profil, string $id)
     {
-        $artikel = Artikel::find($id);
-        
-        if (!$artikel) {
+        $profil = Profil::find($id_profil);
+        if (!$profil) {
             return response()->json([
-                'message' => 'Data artikel tidak ditemukan',
-                'error'  => 400,
-            ], 400);
+                'message' => 'Data profil tidak ditemukan',
+                'error'  => true,
+            ], 404);
         }
 
         $validator = Validator::make($request->all(), [
-            'judul_artikel' => 'required|string|max: 255',
-            'isi_artikel' => 'required|string',
+            'judul_profil' => 'required|string|max: 100',
+            'isi_profil' => 'required|string',
             'status' => 'required|string|max: 100',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'message' => 'Gagal mengupdate data Artikel',
+                'message' => 'Gagal mengupdate data profil',
                 'error'  => $validator->errors(),
             ], 400);
         }
 
-        $artikel->judul_artikel = $request->input('judul_artikel');
-        $artikel->isi_artikel = $request->input('isi_artikel');
-        $artikel->status = $request->input('status');
-        $artikel->save();
+        $profil->judul_profil = $request->input('judul_profil');
+        $profil->isi_profil = $request->input('isi_profil');
+        $profil->status = $request->input('status');
+        $profil->save();
 
         return response()->json([
+            'data' => $profil,
+            'message' => 'Berhasil mengupdate data profil',
             'status' => 200,
-            'message' => 'Berhasil mengupdate data artikel',
         ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Artikel $artikel, string $id)
+    public function destroy(Profil $profil, string $id)
     {
-        $artikel = Artikel::find($id);
-
-        if (!$artikel) {
+        $profil = Profil::find($id);
+        if (!$profil) {
             return response()->json([
-                'message' => 'gagal menghapus data artikel',
-                'status'  => 400,
-            ], 400);
-        }
+            'message' => 'Gagal menghapus data profil',
+            'status' => 400,
+        ], 400);
+    }
 
-        $artikel->delete();
-
+        $profil->delete();
+        
         return response()->json([
+            'data' => $profil,
+            'message' => 'Berhasil menghapus data profil',
             'status' => 200,
-            'message' => 'Berhasil menghapus data artikel',
         ], 200);
     }
 }

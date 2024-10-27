@@ -8,6 +8,9 @@ use App\Http\Controllers\API\GaleriController;
 use App\Http\Controllers\API\GaleriKategoriController;
 use App\Http\Controllers\API\StatistikController;
 use App\Http\Controllers\API\VisimisController;
+use App\Http\Controllers\API\ProfilController;
+use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\PeminjamanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +52,21 @@ Route::post('/visimis', [VisimisController::class, 'create']);
 Route::get('/visimis', [VisimisController::class, 'index']);
 Route::put('/visimis/{id}', [VisimisController::class, 'update']);
 Route::delete('/visimis/{id}', [VisimisController::class, 'destroy']);
+
+Route::post('/profil', [ProfilController::class, 'create']);
+Route::get('/profil', [ProfilController::class, 'index']);
+Route::put('/profil/{id}', [ProfilController::class, 'update']);
+Route::delete('/profil/{id}', [ProfilController::class, 'destroy']);
+
+Route::post('/user', [UserController::class, 'create']);
+Route::get('/user', [UserController::class, 'index']);
+Route::put('/user/{id}', [UserController::class, 'update']);
+Route::delete('/user/{id}', [UserController::class], 'destroy');
+
+Route::get('/peminjaman', [PeminjamanController::class, 'index']);
+Route::post('/peminjaman', [PeminjamanController::class, 'create']);
+Route::put('/peminjaman/{id}', [PeminjamanController::class, 'update']);
+Route::delete('/peminjaman/{id}', [PeminjamanController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
